@@ -15,6 +15,7 @@ fn main() -> Result<()> {
     let node = find_focused(&tree).unwrap();
 
     let mut to_i3 = true;
+
     if is_emacs(node) {
         // TODO: if eval fails, to_i3 = true
         let mut emacs = EmacsClient::new(&emacs_socket_path);
@@ -39,6 +40,12 @@ fn find_focused<'a>(node: &'a Node) -> Option<&'a Node> {
 
 /// Determine if the node in question is an Emacs window.
 fn is_emacs(node: &Node) -> bool {
+    if let Some(props) = node.window_properties.as_ref() {
+        if let Some(class) = props.get(&i3ipc::reply::WindowProperty::Class) {
+            return class == &"Emacs"
+        }
+    }
+
     node.name.as_ref().unwrap().starts_with("emacs: ")
 }
 

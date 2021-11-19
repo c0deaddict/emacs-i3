@@ -44,6 +44,7 @@ impl EmacsClient {
         sock.flush()?;
 
         let mut response = String::new();
+        // TODO: reading an error somehow blocks for a few seconds.
         sock.read_to_string(&mut response)?;
 
         for line in response.lines() {

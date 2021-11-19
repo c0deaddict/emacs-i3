@@ -11,3 +11,6 @@ anyhow = "1.0.47"
 [dependencies.i3ipc]
 version = "0.10.1"
 features = ["i3-4-14"]
+
+[patch.crates-io]
+i3ipc = { git = "https://github.com/c0deaddict/i3ipc-rs", branch = "fix/window-properties" }
