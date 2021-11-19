@@ -29,11 +29,11 @@
       ('(shrink width)
        (shrink-window-horizontally 1))
       ('(shrink height)
-       (shrink-window-vertically 1))
+       (shrink-window 1))
       ('(grow width)
        (enlarge-window-horizontally 1))
       ('(grow height)
-       (enlarge-window-vertically 1))
+       (enlarge-window 1))
       (- nil))))
 
 (defun my/emacs-i3-split (dir)
@@ -43,8 +43,16 @@
         ('v (split-window-below)))
       (and (other-window 1) t)))
 
-;; use-package transpose-frame
+(defun my/emacs-i3-kill ()
+  "Try to kill the focused window. If there is only one window,
+let i3 handle it."
+  (if (one-window-p)
+      nil ;; let i3 kill the main window
+    (progn (delete-window) t)))
+
 (defun my/emacs-i3-command (command)
+  "Try to run an i3 command in Emacs. Returns `t` if the command
+could be run, `nil` if i3 should run it."
   (pcase (split-string command)
     (`("focus" ,dir)
      (my/emacs-i3-focus (intern dir)))
@@ -53,10 +61,11 @@
     (`("resize" ,dir ,axis . ,rest)
      (my/emacs-i3-resize (intern dir) (intern axis) rest))
     (`("layout" "toggle" "split")
-     (transpose-frame))
+     (progn (transpose-frame) t))
     (`("split" ,dir)
      (my/emacs-i3-split (intern dir)))
-    (`("kill") (and (delete-window) t))
+    (`("kill")
+     (my/emacs-i3-kill))
     (- nil)))
 
 (provide 'emacs-i3)
