@@ -18,9 +18,7 @@ fn main() -> Result<()> {
     if is_emacs(node) {
         // TODO: if eval fails, to_i3 = true
         let mut emacs = EmacsClient::new(&emacs_socket_path);
-        if emacs.eval(&emacs_i3_command(&command))? == "nil" {
-            to_i3 = true;
-        }
+        to_i3 = emacs.eval(&emacs_i3_command(&command))? == "nil";
     }
 
     if to_i3 {

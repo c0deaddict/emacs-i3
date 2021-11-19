@@ -17,7 +17,7 @@
 (defun my/emacs-i3-move (dir)
   (let ((other-window (windmove-find-other-window dir)))
     (if (and other-window (not (window-minibuffer-p other-window)))
-        (window-swap-states (selected-window) other-window)
+        (progn (window-swap-states (selected-window) other-window) t)
       nil)))
 
 (defun my/emacs-i3-resize (dir axis rest)
