@@ -1,3 +1,5 @@
+(require 'windmove)
+
 (defun my/emacs-i3-focus (dir)
   (let ((other-window (windmove-find-other-window dir)))
     (if (or (null other-window) (window-minibuffer-p other-window))
@@ -56,3 +58,5 @@
      (my/emacs-i3-split (intern dir)))
     (`("kill") (and (delete-window) t))
     (- nil)))
+
+(provide 'emacs-i3)
