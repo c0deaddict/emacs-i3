@@ -10,7 +10,7 @@ use std::env;
 fn main() -> Result<()> {
     let matches = App::new("emacs-i3")
         .setting(AppSettings::TrailingVarArg)
-        .version("0.1.1")
+        .version("0.1.2")
         .author("Jos van Bakel <jos@codeaddict.org>")
         .about("Emacs i3 integration")
         .arg(
