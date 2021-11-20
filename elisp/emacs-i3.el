@@ -1,4 +1,6 @@
 (require 'windmove)
+(require 'cl-lib)
+(require 'transpose-frame)
 
 (defun my/emacs-i3-focus (dir)
   (let ((other-window (windmove-find-other-window dir)))
@@ -7,12 +9,12 @@
       (progn (windmove-do-window-select dir) t))))
 
 (defun my/emacs-i3-direction-exists-p (axis)
-  (some (lambda (dir)
-          (let ((win (windmove-find-other-window dir)))
-            (and win (not (window-minibuffer-p win)))))
-        (pcase axis
-          ('width '(left right))
-          ('height '(up down)))))
+  (cl-some (lambda (dir)
+             (let ((win (windmove-find-other-window dir)))
+               (and win (not (window-minibuffer-p win)))))
+           (pcase axis
+             ('width '(left right))
+             ('height '(up down)))))
 
 (defun my/emacs-i3-move (dir)
   (let ((other-window (windmove-find-other-window dir)))
