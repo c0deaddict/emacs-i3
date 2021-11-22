@@ -1,6 +1,5 @@
 (require 'windmove)
 (require 'cl-lib)
-(require 'transpose-frame)
 
 (defun my/emacs-i3-focus (dir)
   (let ((other-window (windmove-find-other-window dir)))
