@@ -33,17 +33,18 @@ fn main() -> Result<()> {
         .collect::<Vec<_>>()
         .join(" ");
 
-    let emacs_command =
-        if let Some(emacs_arg) = matches.value_of("emacs") {
-            emacs_arg.to_owned()
-        } else {
-            i3_command.clone()
-        };
+    let emacs_command = if let Some(emacs_arg) = matches.value_of("emacs") {
+        emacs_arg.to_owned()
+    } else {
+        i3_command.clone()
+    };
 
     let emacs_socket_path = env::var("XDG_RUNTIME_DIR").unwrap() + "/emacs/server";
 
     let mut i3 = I3Connection::connect().unwrap();
     let tree = i3.get_tree().unwrap();
+    // TODO: find_focused can fail if the focused window is floating
+    // since I rarely use Emacs in this way, revert to `to_i3=true`.
     let node = find_focused(&tree).unwrap();
 
     let mut to_i3 = true;
